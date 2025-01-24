@@ -1,0 +1,66 @@
+[package]
+name = "web3_wallet"
+version = "0.1.0"
+edition = "2021"
+authors = ["Your Name <your.email@example.com>"]  # Update with your details
+description = "A secure Rust-based Web3 wallet for Ethereum L2 networks"
+license = "MIT"
+repository = "https://github.com/yourusername/web3_wallet"  # Update with your repo
+
+[dependencies]
+# Ethereum blockchain interactions
+ethers = { version = "2.0.14", features = [
+    "ws",
+    "rustls",
+    "abigen"
+] }
+
+# Async runtime
+tokio = { version = "1", features = [
+    "full",  # Consider specifying only needed features for smaller binary
+    "rt-multi-thread",
+    "macros"
+] }
+
+# Cryptographic dependencies
+rand = { version = "0.8", features = ["std", "std_rng"] }
+argon2 = { version = "0.4", features = ["std"] }
+aes-gcm = { version = "0.10", features = ["std"] }
+hex = "0.4"
+sha2 = "0.10"
+
+# Error handling
+eyre = "0.6"
+thiserror = "1.0"
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Add parity-scale-codec dependency
+parity-scale-codec = "3.7.0"
+  # Added dependency
+impl-codec = "0.5.0"
+
+# Optional features for enhanced security
+[dependencies.zeroize]
+version = "1.6"
+features = ["zeroize_derive"]
+
+[dev-dependencies]
+# Testing dependencies
+mockall = "0.11"
+proptest = "1.1"
+
+[features]
+rustls = ["ethers/rustls"]
+
+[profile.release]
+opt-level = 3
+lto = true
+codegen-units = 1
+panic = "abort"
+
+[profile.dev]
+opt-level = 0
+debug = true
